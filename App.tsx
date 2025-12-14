@@ -20,6 +20,7 @@ const App: React.FC = () => {
   const loopRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isProcessingRef = useRef<boolean>(false); 
   const wakeLockRef = useRef<any>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // 1. CONFIG LOADER
   useEffect(() => {
@@ -46,10 +47,14 @@ const App: React.FC = () => {
       try {
         if ('wakeLock' in navigator) {
           wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
-          console.log('SYSTEM_OVERRIDE: SLEEP_MODE_DISABLED');
+          console.log('SYSTEM_OVERRIDE: SLEEP_MODE_DISABLED (NATIVE)');
         }
       } catch (err) {
-        console.error('WAKE_LOCK_FAILED:', err);
+        console.warn('WAKE_LOCK_RESTRICTED: ENGAGING VIDEO FALLBACK');
+        // Fallback: Play hidden video to trick the browser into staying awake
+        if (videoRef.current) {
+          videoRef.current.play().catch(e => console.error("FALLBACK_FAILED", e));
+        }
       }
     };
 
@@ -157,6 +162,16 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center relative overflow-hidden bg-black text-zinc-400 font-sans selection:bg-red-900 selection:text-white cursor-none"> 
       
+      {/* Hidden Video Fallback for Wake Lock */}
+      <video 
+        ref={videoRef}
+        playsInline 
+        loop 
+        muted 
+        className="absolute top-0 left-0 w-px h-px opacity-0 pointer-events-none"
+        src="https://raw.githubusercontent.com/bower-media-samples/big-buck-bunny-1080p-30s/master/video.mp4"
+      />
+
       {/* Bootloader Modal */}
       <ApiKeyModal 
         config={config || { telegramToken: '', telegramChatId: '', discordWebhook: '' }} 
