@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ControlPanelProps } from '../types';
-import { Cpu, Network, Lock, Server } from 'lucide-react';
+import { Cpu, Network, Lock, Volume2, VolumeX } from 'lucide-react';
+import { audio } from '../services/audioService';
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({ 
   isGenerating
 }) => {
+  const [isMuted, setIsMuted] = useState(false);
+
+  const toggleAudio = () => {
+    const muted = audio.toggleMute();
+    if (muted !== undefined) setIsMuted(muted);
+  };
+
   return (
     <div className="bg-zinc-950 border-t border-zinc-900 p-3 w-full backdrop-blur-md bg-opacity-90">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -34,14 +42,20 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           
            <div className="w-px h-6 bg-zinc-900 hidden md:block"></div>
 
-           {/* Security Status */}
-           <div className="flex flex-col gap-1 hidden md:flex">
-             <span className="text-[8px] text-zinc-600 font-mono uppercase tracking-[0.2em]">SECURITY</span>
+           {/* Audio Control */}
+           <button 
+             onClick={toggleAudio}
+             className="flex flex-col gap-1 group hover:bg-zinc-900/50 p-1 rounded transition-colors"
+           >
+             <span className="text-[8px] text-zinc-600 font-mono uppercase tracking-[0.2em] group-hover:text-zinc-400">AUDIO_SYS</span>
              <div className="flex items-center gap-2 text-zinc-400 font-mono text-xs">
-                <Lock className="w-3.5 h-3.5 text-green-700" />
-                <span>ENCRYPTED_CHANNEL</span>
+                {isMuted ? 
+                  <VolumeX className="w-3.5 h-3.5 text-zinc-600" /> : 
+                  <Volume2 className="w-3.5 h-3.5 text-green-700" />
+                }
+                <span>{isMuted ? 'MUTED' : 'ONLINE'}</span>
              </div>
-          </div>
+          </button>
         </div>
 
         {/* Live Indicator */}

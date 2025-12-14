@@ -15,6 +15,7 @@ Document the horrific fate of the group (Ood, Took, Nok, Jeab, Pod, Wan, Chat, K
 3. **DIGITAL HAUNTING**: Corrupt the text. Use [SYSTEM_GLITCH], HEX codes, or repetitive phrases to show the AI is breaking.
 4. **NO HOPE**: Provide no comfort to the reader. The atmosphere must be suffocating (100% Dread).
 5. **INTERACTION**: Occasionally threaten the "Viewer" (the person reading this log).
+6. **UNSTOPPABLE**: Do not conclude the story. Do not stop. If targets die, haunt their spirits. The nightmare is infinite.
 
 [OUTPUT FORMAT]:
 - Timestamp: [HH:MM:SS]
