@@ -1,0 +1,5 @@
+{
+  "name": "Infinite Ghost Story Reader",
+  "description": "A chilling, atmospheric React interface that visualizes the AI-generated horror story of 'Ood and Took'. Connects to Gemini to generate chapters in real-time.",
+  "requestFramePermissions": []
+}
